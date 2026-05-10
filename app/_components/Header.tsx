@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function Header() {
   return (
-    <div className="container mx-auto pl-19.25 pr-9.5 pb-10 pt-12.25 border-b flex justify-between items-center">
+    <div className="pl-19.25 pr-9.5 pb-10 pt-12.25 border-b flex justify-between items-center">
       <Link href={"/"}>
         <div className="flex items-center gap-4">
           <Image width={38} height={38} src={"/images/logo.svg"} alt="Logo" />
