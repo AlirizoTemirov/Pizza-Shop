@@ -17,9 +17,9 @@ export default function Header() {
 
       <Button
         variant={"default"}
-        className="px-5 py-4 rounded-2xl bg-[#FE5F1E] flex items-center"
+        className="px-5 py-4 rounded-2xl bg-[#FE5F1E] text-white flex items-center transition-all cursor-pointer hover:bg-[#fe5d1ed2]"
       >
-        520$
+        520₽
         <div className="border-r h-5"></div>
         <Image width={16} height={16} src={"/images/cart.svg"} alt="Cart" />
         14
