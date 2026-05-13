@@ -1,12 +1,26 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { useCartStore } from "@/store/useCartStore";
 import { Product } from "@/types";
+import { useState } from "react";
 
 interface ProductCardProps {
   product: Product;
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
+  const [pizzaType, setPizzaType] = useState("тонкое");
+  const [pizzaSize, setPizzaSize] = useState("26");
+  const { cart } = useCartStore();
+
+  const addedCount = cart
+    .filter((item) => item.id === product.id)
+    .reduce((sum, item) => sum + item.count, 0);
+
+  const addToCart = useCartStore((state) => state.addToCart);
+
   return (
     <div className="w-70">
       <img
@@ -19,7 +33,15 @@ export default function ProductCard({ product }: ProductCardProps) {
       </h1>
 
       <div className="bg-[#F3F3F3] p-1 rounded-lg">
-        <ToggleGroup type="single" defaultValue="тонкое" spacing={2}>
+        <ToggleGroup
+          value={pizzaType}
+          onValueChange={(value) => {
+            if (value) setPizzaType(value);
+          }}
+          type="single"
+          defaultValue="тонкое"
+          spacing={2}
+        >
           <ToggleGroupItem
             value="тонкое"
             aria-label="sdasd"
@@ -39,6 +61,10 @@ export default function ProductCard({ product }: ProductCardProps) {
         <ToggleGroup
           className="mt-2"
           type="single"
+          value={pizzaSize}
+          onValueChange={(value) => {
+            if (value) setPizzaSize(value);
+          }}
           defaultValue="26"
           spacing={2}
         >
@@ -68,10 +94,26 @@ export default function ProductCard({ product }: ProductCardProps) {
       <div className="mt-4.25 flex justify-between items-center">
         <h1 className="text-[20px] font-bold">от {product.price} ₽</h1>
         <Button
+          onClick={() =>
+            addToCart({
+              id: product.id,
+              name: product.name,
+              image: product.image,
+              price: product.price,
+              size: parseInt(pizzaSize),
+              type: pizzaType,
+              count: 1,
+            })
+          }
           className="py-2.75 px-4.25 cursor-pointer rounded-2xl bg-white border-[#EB5A1E] text-[#EB5A1E] hover:bg-[#EB5A1E] hover:text-white"
           variant={"outline"}
         >
           + Добавить
+          {addedCount > 0 && (
+            <div className="ml-2 min-w-5 h-5 px-1 rounded-full bg-[#FE5F1E] text-white flex items-center justify-center text-xs">
+              {addedCount}
+            </div>
+          )}
         </Button>
       </div>
     </div>
