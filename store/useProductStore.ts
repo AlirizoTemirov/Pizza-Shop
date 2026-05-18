@@ -1,4 +1,3 @@
-import { Product } from "@/types";
 import { create } from "zustand";
 
 type ProductForm = {
