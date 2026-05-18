@@ -4,12 +4,24 @@ import Image from "next/image";
 import { PiBagSimpleThin } from "react-icons/pi";
 import { TbCategory } from "react-icons/tb";
 import { FiShoppingCart } from "react-icons/fi";
+import { redirect } from "next/navigation";
+import { createClient } from "@/utils/server";
+import LogoutButton from "../_components/LogoutButton";
 
 export default async function AdminLoyout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
   return (
     <div className="flex">
       <div className="fixed left-0 h-screen p-6 bg-[#101926]">
@@ -48,6 +60,8 @@ export default async function AdminLoyout({
               Go To Home Page
             </button>
           </Link>
+
+          <LogoutButton />
         </div>
       </div>
       <div className="ml-72 min-h-screen w-full p-10 overflow-y-auto">
