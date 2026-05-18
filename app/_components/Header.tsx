@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/store/useCartStore";
 import Image from "next/image";
 import Link from "next/link";
+import { MdOutlineAdminPanelSettings } from "react-icons/md";
 
 export default function Header() {
   const { cart } = useCartStore();
@@ -25,16 +26,24 @@ export default function Header() {
         </div>
       </Link>
 
-      <Link href={"/cart"}>
-        <Button
-          variant={"default"}
-          className="px-5 py-4 rounded-2xl bg-[#FE5F1E] text-white flex items-center transition-all cursor-pointer hover:bg-[#fe5d1ed2]"
-        >
-          {totalPrice}₽<div className="border-r h-5"></div>
-          <Image width={16} height={16} src={"/images/cart.svg"} alt="Cart" />
-          {totalCount}
-        </Button>
-      </Link>
+      <div className="flex gap-4 items-center">
+        <Link className="flex items-center" href={"/admin/products"}>
+          <button className="cursor-pointer">
+            <MdOutlineAdminPanelSettings size={30} />
+          </button>
+        </Link>
+
+        <Link href={"/cart"}>
+          <Button
+            variant={"default"}
+            className="px-5 py-4 rounded-2xl bg-[#FE5F1E] text-white flex items-center transition-all cursor-pointer hover:bg-[#fe5d1ed2]"
+          >
+            {totalPrice}₽<div className="border-r h-5"></div>
+            <Image width={16} height={16} src={"/images/cart.svg"} alt="Cart" />
+            {totalCount}
+          </Button>
+        </Link>
+      </div>
     </div>
   );
 }

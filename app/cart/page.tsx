@@ -83,13 +83,13 @@ export default function page() {
                 <div className="flex items-center gap-4">
                   <img
                     className="w-20 h-20"
-                    src={cart.image}
+                    src={cart.imageUrl}
                     alt="ProductImg"
                   />
                   <div>
-                    <h1 className="text-[22px] font-bold">{cart.name}</h1>
+                    <h1 className="text-[22px] font-bold">{cart.title}</h1>
                     <p className="text-[18px] text-[#8D8D8D]">
-                      {cart.type} тесто, {cart.size} см.
+                      {cart.types} тесто, {cart.sizes} см.
                     </p>
                   </div>
                 </div>

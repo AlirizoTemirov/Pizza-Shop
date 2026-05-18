@@ -3,11 +3,11 @@ import { persist } from "zustand/middleware";
 
 interface CartItem {
   id: string;
-  name: string;
-  image: string;
+  title: string;
+  imageUrl: string;
   price: number;
-  size: number;
-  type: string;
+  sizes: number;
+  types: number;
   count: number;
 }
 
@@ -18,6 +18,8 @@ interface CartStore {
   decrement: (id: string) => void;
   removeItem: (id: string) => void;
   clearCart: () => void;
+  modalOpen: boolean;
+  setVisable: (visable: boolean) => void;
 }
 
 export const useCartStore = create<CartStore>()(
@@ -35,8 +37,8 @@ export const useCartStore = create<CartStore>()(
             return {
               cart: state.cart.map((product) =>
                 product.id === item.id &&
-                product.type === item.type &&
-                product.size === item.size
+                product.types === item.types &&
+                product.sizes === item.sizes
                   ? { ...product, count: product.count + 1 }
                   : product
               ),
@@ -70,6 +72,9 @@ export const useCartStore = create<CartStore>()(
         })),
 
       clearCart: () => set({ cart: [] }),
+
+      modalOpen: false,
+      setVisable: (visable) => set(() => ({ modalOpen: visable })),
     }),
     {
       name: "cart-storage",

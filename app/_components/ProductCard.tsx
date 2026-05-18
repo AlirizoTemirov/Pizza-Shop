@@ -25,11 +25,11 @@ export default function ProductCard({ product }: ProductCardProps) {
     <div className="w-70">
       <img
         className="w-64.75 h-65 mx-auto"
-        src={product.image}
-        alt={product.name}
+        src={product.imageUrl}
+        alt={product.title}
       />
       <h1 className="text-[20px] font-bold pt-2.75 pb-5.5 text-center">
-        {product.name}
+        {product.title}
       </h1>
 
       <div className="bg-[#F3F3F3] p-1 rounded-lg">
@@ -97,11 +97,11 @@ export default function ProductCard({ product }: ProductCardProps) {
           onClick={() =>
             addToCart({
               id: product.id,
-              name: product.name,
-              image: product.image,
+              title: product.title,
+              imageUrl: product.imageUrl,
               price: product.price,
-              size: parseInt(pizzaSize),
-              type: pizzaType,
+              sizes: parseInt(pizzaSize),
+              types: product.types[0],
               count: 1,
             })
           }

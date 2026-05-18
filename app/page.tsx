@@ -5,18 +5,18 @@ import Products from "./_components/Products";
 
 export default async function Home() {
   const { data: CategoryData } = await axios.get(
-    "https://68f11ffe0b966ad50035753d.mockapi.io/categories"
+    "https://serve.faux-api.com/f92ae21abaa048e1a243f392/categories"
   );
 
   const { data: ProductData } = await axios.get(
-    "https://68f11ffe0b966ad50035753d.mockapi.io/products"
+    "https://serve.faux-api.com/f92ae21abaa048e1a243f392/products"
   );
 
   return (
     <div className="container mx-auto pb-10">
       <Header />
-      <CategoriesSection categories={CategoryData} />
-      <Products products={ProductData} />
+      <CategoriesSection categories={CategoryData.result} />
+      <Products products={ProductData.result} />
     </div>
   );
 }

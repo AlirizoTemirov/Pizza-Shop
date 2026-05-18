@@ -5,9 +5,20 @@ export type Category = {
 
 export type Product = {
   id: string;
-  name: string;
-  description: string;
+  title: string;
   price: number;
-  image: string;
-  categoryId: string;
+  imageUrl: string;
+  category: number;
+  sizes: number[];
+  types: number[];
+  rating: number;
+};
+
+export type Order = {
+  id: string;
+  name: string;
+  location: string;
+  phonenumber: string;
+  orders: [];
+  status: number;
 };
