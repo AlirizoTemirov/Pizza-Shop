@@ -89,7 +89,7 @@ export default function page() {
                   <div>
                     <h1 className="text-[22px] font-bold">{cart.title}</h1>
                     <p className="text-[18px] text-[#8D8D8D]">
-                      {cart.types} тесто, {cart.sizes} см.
+                      {cart.types}, {cart.sizes} см.
                     </p>
                   </div>
                 </div>

@@ -19,6 +19,6 @@ export type Order = {
   name: string;
   location: string;
   phonenumber: string;
-  orders: [];
+  orders: string;
   status: number;
 };

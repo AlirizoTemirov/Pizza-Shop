@@ -7,7 +7,7 @@ interface CartItem {
   imageUrl: string;
   price: number;
   sizes: number;
-  types: number;
+  types: string;
   count: number;
 }
 

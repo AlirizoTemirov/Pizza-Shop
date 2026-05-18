@@ -1,7 +1,5 @@
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { FaArrowLeftLong } from "react-icons/fa6";
-import { redirect } from "next/navigation";
 import Image from "next/image";
 import { PiBagSimpleThin } from "react-icons/pi";
 import { TbCategory } from "react-icons/tb";

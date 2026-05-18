@@ -101,7 +101,7 @@ export default function ProductCard({ product }: ProductCardProps) {
               imageUrl: product.imageUrl,
               price: product.price,
               sizes: parseInt(pizzaSize),
-              types: product.types[0],
+              types: pizzaType,
               count: 1,
             })
           }
