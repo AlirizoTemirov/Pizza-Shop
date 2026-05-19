@@ -9,10 +9,10 @@ import { MdOutlineAdminPanelSettings } from "react-icons/md";
 export default function Header() {
   const { cart } = useCartStore();
   const totalPrice = cart.reduce(
-    (sum, item) => sum + item.price * item.count,
+    (sum, item) => sum + item.price * item.quantity,
     0
   );
-  const totalCount = cart.reduce((sum, item) => sum + item.count, 0);
+  const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <div className="pl-19.25 pr-9.5 py-6 sticky top-0 z-50 bg-white border-b border-gray-300 flex justify-between items-center">

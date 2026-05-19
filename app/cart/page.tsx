@@ -8,14 +8,39 @@ import { FaMinus, FaPlus } from "react-icons/fa6";
 import { IoMdClose } from "react-icons/io";
 import { FaChevronLeft } from "react-icons/fa";
 import { useCartStore } from "@/store/useCartStore";
+import { useOrderStore } from "@/store/useOrderStore";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export default function page() {
   const { cart, clearCart, decrement, increment, removeItem } = useCartStore();
   const totalPrice = cart.reduce(
-    (sum, item) => sum + item.price * item.count,
+    (sum, item) => sum + item.price * item.quantity,
     0
   );
-  const totalCount = cart.reduce((sum, item) => sum + item.count, 0);
+  const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const { modalOpen, setVisable, changeForm, orderForm, resetForm } =
+    useOrderStore();
+
+  const router = useRouter();
+
+  const handleSave = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await axios.post(
+        "https://serve.faux-api.com/f92ae21abaa048e1a243f392/orders",
+        { ...orderForm, orders: JSON.stringify(cart) }
+      );
+
+      router.refresh();
+      clearCart();
+      setVisable(false);
+      alert("order created!");
+    } catch (error) {
+      alert("error");
+      console.log(error);
+    }
+  };
 
   return (
     <div>
@@ -102,7 +127,7 @@ export default function page() {
                     >
                       <FaMinus size={16} className="mx-auto" />
                     </button>
-                    <h1 className="text-[22px] font-bold">{cart.count}</h1>
+                    <h1 className="text-[22px] font-bold">{cart.quantity}</h1>
                     <button
                       onClick={() => increment(cart.id)}
                       className="w-8 h-8 border border-[#FE5F1E] rounded-full text-2xl cursor-pointer text-[#FE5F1E] hover:bg-[#FE5F1E] hover:text-white transition"
@@ -112,7 +137,7 @@ export default function page() {
                   </div>
 
                   <h1 className="text-[22px] font-bold">
-                    {cart.price * cart.count} ₽
+                    {cart.price * cart.quantity} ₽
                   </h1>
 
                   <button
@@ -143,9 +168,100 @@ export default function page() {
                 Вернуться назад
               </button>
             </Link>
-            <button className="px-5.5 py-3 flex gap-2 items-center cursor-pointer rounded-4xl text-white bg-[#FE5F1E] hover:bg-[#fe5d1ed3] transition">
+            <button
+              onClick={() => setVisable(true)}
+              className="px-5.5 py-3 flex gap-2 items-center cursor-pointer rounded-4xl text-white bg-[#FE5F1E] hover:bg-[#fe5d1ed3] transition"
+            >
               Оплатить сейчас
             </button>
+          </div>
+        </div>
+      )}
+
+      {modalOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm animate-fadeIn"
+          onClick={() => setVisable(false)}
+        >
+          {/* Modal */}
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-lg mx-4 bg-white rounded-3xl p-6 shadow-2xl animate-modalScale"
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setVisable(false)}
+              className="absolute top-4 right-4 w-9 h-9 flex items-center justify-center rounded-full bg-gray-100 hover:bg-red-100 hover:text-red-500 transition"
+            >
+              ✕
+            </button>
+
+            {/* Header */}
+            <div className="mb-6">
+              <h2 className="text-3xl font-bold text-gray-800">
+                Order Product
+              </h2>
+            </div>
+
+            {/* Form */}
+            <form onSubmit={handleSave} className="space-y-5">
+              {/* Product Name */}
+              <div>
+                <label className="block mb-2 text-sm font-semibold text-gray-700">
+                  Name
+                </label>
+
+                <input
+                  value={orderForm.name}
+                  onChange={(e) => changeForm("name", e.target.value)}
+                  type="text"
+                  placeholder="Enter name"
+                  className="w-full border border-gray-200 bg-gray-50 rounded-2xl px-4 py-3 outline-none transition focus:border-orange-500 focus:ring-4 focus:ring-orange-100"
+                />
+
+                <label className="block mb-2 mt-5 text-sm font-semibold text-gray-700">
+                  Location
+                </label>
+
+                <input
+                  value={orderForm.location}
+                  onChange={(e) => changeForm("location", e.target.value)}
+                  type="text"
+                  placeholder="Enter Location"
+                  className="w-full border border-gray-200 bg-gray-50 rounded-2xl px-4 py-3 outline-none transition focus:border-orange-500 focus:ring-4 focus:ring-orange-100"
+                />
+
+                <label className="block mb-2 mt-5 text-sm font-semibold text-gray-700">
+                  Phone Number
+                </label>
+
+                <input
+                  value={orderForm.phonenumber}
+                  onChange={(e) => changeForm("phonenumber", e.target.value)}
+                  type="text"
+                  placeholder="Enter phone number"
+                  className="w-full border border-gray-200 bg-gray-50 rounded-2xl px-4 py-3 outline-none transition focus:border-orange-500 focus:ring-4 focus:ring-orange-100"
+                />
+              </div>
+
+              {/* Footer Buttons */}
+              <div className="flex justify-end gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setVisable(false)}
+                  className="px-5 py-3 rounded-2xl border border-gray-300 font-medium hover:bg-gray-100 transition"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="submit"
+                  className="px-5 py-3 cursor-pointer rounded-2xl bg-[#FE5F1E] text-white font-medium shadow-lg shadow-orange-200 hover:scale-105 hover:bg-[#e65316] transition duration-300"
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

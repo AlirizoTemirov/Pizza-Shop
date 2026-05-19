@@ -17,7 +17,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   const addedCount = cart
     .filter((item) => item.id === product.id)
-    .reduce((sum, item) => sum + item.count, 0);
+    .reduce((sum, item) => sum + item.quantity, 0);
 
   const addToCart = useCartStore((state) => state.addToCart);
 
@@ -102,7 +102,7 @@ export default function ProductCard({ product }: ProductCardProps) {
               price: product.price,
               sizes: parseInt(pizzaSize),
               types: pizzaType,
-              count: 1,
+              quantity: 1,
             })
           }
           className="py-2.75 px-4.25 cursor-pointer rounded-2xl bg-white border-[#EB5A1E] text-[#EB5A1E] hover:bg-[#EB5A1E] hover:text-white"

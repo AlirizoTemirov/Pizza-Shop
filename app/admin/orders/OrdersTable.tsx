@@ -29,7 +29,7 @@ export default function ProductsTable({ orders }: ProductProps) {
   const handleDelete = async (id: string) => {
     try {
       await axios.delete(
-        `https://serve.faux-api.com/f92ae21abaa048e1a243f392/categories/${id}`
+        `https://serve.faux-api.com/f92ae21abaa048e1a243f392/orders/${id}`
       );
       router.refresh();
     } catch (error) {
