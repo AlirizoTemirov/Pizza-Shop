@@ -1,7 +1,5 @@
 import axios from "axios";
-import CategoriesSection from "./_components/CategoriesSection";
-import Header from "./_components/Header";
-import Products from "./_components/Products";
+import HomeClient from "./_components/HomeClient";
 
 export default async function Home() {
   const { data: CategoryData } = await axios.get(
@@ -13,10 +11,9 @@ export default async function Home() {
   );
 
   return (
-    <div className="container mx-auto pb-10">
-      <Header />
-      <CategoriesSection categories={CategoryData.result} />
-      <Products products={ProductData.result} />
-    </div>
+    <HomeClient
+      categories={CategoryData.result}
+      products={ProductData.result}
+    />
   );
 }

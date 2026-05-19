@@ -13,23 +13,47 @@ import { useState } from "react";
 
 interface CategoryProps {
   categories: Category[];
+  onFilter: (category: string) => void;
+  activeCategory: string;
+  selectedSort: string;
+  onSort: (type: string) => void;
 }
 
-export default function CategoriesSection({ categories }: CategoryProps) {
+export default function CategoriesSection({
+  categories,
+  onFilter,
+  activeCategory,
+  selectedSort,
+  onSort,
+}: CategoryProps) {
   const sortItems = ["популярности", "по цене", "по алфавиту"];
-  const [selected, setSelected] = useState(sortItems[0]);
 
   return (
     <div className="pl-16.75 pr-12 pt-10 pb-8 flex justify-between items-center">
       <div className="flex items-center gap-2.25">
-        <Button className="py-4 px-5 rounded-2xl bg-black text-white cursor-pointer">
+        <Button
+          onClick={() => onFilter("all")}
+          className={`py-4 px-5 rounded-2xl cursor-pointer
+    ${
+      activeCategory === "all"
+        ? "bg-black text-white"
+        : "bg-gray-100 border border-gray-300 text-black"
+    }
+  `}
+        >
           Все
         </Button>
-        {categories.map((category) => (
+        {categories.map((category, index) => (
           <Button
             key={category.id}
-            variant={"outline"}
-            className="py-4 px-5 rounded-2xl border-gray-300 cursor-pointer bg-background hover:bg-gray-50 transition-all hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50"
+            onClick={() => onFilter(String(index + 1))}
+            className={`py-4 px-5 rounded-2xl cursor-pointer transition
+            ${
+              activeCategory === String(index + 1)
+                ? "bg-black text-white"
+                : "text-black bg-gray-100 border border-gray-300"
+            }
+          `}
           >
             {category.name}
           </Button>
@@ -42,7 +66,7 @@ export default function CategoriesSection({ categories }: CategoryProps) {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button className="flex items-center gap-1 text-orange-500 font-medium outline-none cursor-pointer select-none">
-              {selected}
+              {selectedSort}
               <ChevronDown size={16} />
             </button>
           </DropdownMenuTrigger>
@@ -51,9 +75,9 @@ export default function CategoriesSection({ categories }: CategoryProps) {
             {sortItems.map((item) => (
               <DropdownMenuItem
                 key={item}
-                onClick={() => setSelected(item)}
+                onClick={() => onSort(item)}
                 className={
-                  selected === item
+                  selectedSort === item
                     ? "text-orange-500 font-semibold bg-orange-50 cursor-pointer"
                     : "hover:bg-gray-100 cursor-pointer transition-all"
                 }
