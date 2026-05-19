@@ -56,10 +56,11 @@ export default function ProductsTable({ orders }: ProductProps) {
           </TableHeader>
           <TableBody>
             {orders.map((order, index) => {
-              const parsedOrders =
-                typeof order.orders === "string"
+              const parsedOrders = order.orders
+                ? typeof order.orders === "string"
                   ? JSON.parse(order.orders)
-                  : order.orders;
+                  : order.orders
+                : [];
 
               return (
                 <TableRow key={order.id}>
